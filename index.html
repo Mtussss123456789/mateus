@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>História Interativa do Homem-Aranha</title>
+  <style>
+    /* Estilo geral */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+     background-image: url("https://wallpaper.forfun.com/fetch/f5/f5f956ac7472a1fb70f1e89c96e95beb.jpeg");
+     background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+      color: #fff;
+    }
+
+    /* Cabeçalho */
+    .header-container {
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(90deg, #0000ff, #003366);
+    }
+
+    .logo {
+      font-size: 2.5em;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Container da história */
+    .historia-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .caixa {
+      background-color: rgba(0, 0, 255, 0.8); /* Azul translúcido */
+      padding: 20px;
+      border-radius: 10px;
+      margin: 15px;
+      width: 80%;
+      max-width: 500px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+
+    .caixa img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    .botoes {
+      margin-top: 20px;
+    }
+
+    .botao {
+      background-color: #0000ff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      margin: 5px;
+    }
+
+    .botao:hover {
+      background-color: #003366;
+    }
+  </style>
+</head>
+<body>
+  <div class="header-container">
+    <div class="logo">História Interativa do Homem-Aranha</div>
+  </div>
+
+  <div class="historia-container">
+    <div class="caixa" id="etapa">
+      <img src="https://i.imgur.com/MvX0D0p.jpg" alt="Peter Parker" />
+      <p id="texto">Peter Parker, o jovem fotógrafo, é picado por uma aranha radioativa e ganha poderes incríveis.</p>
+    </div>
+
+    <div class="botoes" id="botoes">
+      <button class="botao" onclick="escolha(1)">Testar seus poderes</button>
+      <button class="botao" onclick="escolha(2)">Procurar por responsabilidades</button>
+    </div>
+  </div>
+
+  <script>
+    const etapas = {
+      0: {
+        texto: "Peter Parker, o jovem fotógrafo, é picado por uma aranha radioativa e ganha poderes incríveis.",
+        imagem: "https://super.abril.com.br/wp-content/uploads/2022/02/SI_436_ORCL_Aranha-Peter-Parker_site.jpg?quality=70&strip=info&crop=1&resize=1080,565",
+        escolhas: [
+          { texto: "Testar seus poderes", proxima: 1 },
+          { texto: "Procurar por responsabilidades", proxima: 2 },
+        ],
+      },
+      1: {
+        texto: "Peter tenta escalar paredes e atirar teias, ficando surpreso com os resultados.",
+        imagem: "https://numagalaxiaqualquer.wordpress.com/wp-content/uploads/2017/07/12179-spider-man_109pyxurz.jpg?w=436&h=328",
+        escolhas: [
+          { texto: "Testar a força", proxima: 3 },
+          { texto: "Usar a agilidade para fugir de inimigos", proxima: 4 },
+        ],
+      },
+      2: {
+        texto: "Peter decide usar seus poderes para combater o crime e salvar as pessoas.",
+        imagem: "https://theawesomer.com/photos/2021/12/spider_man_rated_r_corridor_t.jpg",
+        escolhas: [
+          { texto: "Lutar contra um bandido", proxima: 5 },
+          { texto: "Proteger sua identidade secreta", proxima: 6 },
+        ],
+      },
+      3: {
+        texto: "Peter usa sua força para enfrentar criminosos, mas acaba destruindo parte de um prédio.",
+        imagem: "https://www.einerd.com.br/wp-content/uploads/2019/01/Homem-Aranha-no-Aranhaverso-easter-eggs-1.jpg",
+        escolhas: [],
+      },
+      4: {
+        texto: "Peter usa sua agilidade para escapar, mas se vê perseguido por vilões.",
+        imagem: "https://br.web.img3.acsta.net/medias/nmedia/19/00/88/78/20638613.jpg",
+        escolhas: [],
+      },
+      5: {
+        texto: "Peter derrota o bandido, mas a mídia começa a investigar o Homem-Aranha.",
+        imagem: "https://cinemacomrapadura.com.br/imagens/2012/08/j-k-simmonsspiderman.jpg",
+        escolhas: [],
+      },
+      6: {
+        texto: "Peter decide proteger sua identidade, mas é confrontado por um grande vilão.",
+        imagem: "https://www.einerd.com.br/wp-content/uploads/2019/11/willem-dafoe-duende-verde-e1574176547139-890x606.jpeg",
+        escolhas: [],
+      },
+    };
+
+    let etapaAtual = 0;
+
+    function atualizarEtapa() {
+      const etapa = etapas[etapaAtual];
+      document.getElementById("texto").textContent = etapa.texto;
+      document.querySelector(".caixa img").src = etapa.imagem;
+
+      const botoesContainer = document.getElementById("botoes");
+      botoesContainer.innerHTML = "";
+
+      etapa.escolhas.forEach((escolha) => {
+        const botao = document.createElement("button");
+        botao.className = "botao";
+        botao.textContent = escolha.texto;
+        botao.onclick = () => escolhaProxima(etapaAtual, escolha.proxima);
+        botoesContainer.appendChild(botao);
+      });
+    }
+
+    function escolhaProxima(atual, proxima) {
+      etapaAtual = proxima;
+      atualizarEtapa();
+    }
+
+    function escolha(opcao) {
+      etapaAtual = opcao;
+      atualizarEtapa();
+    }
+
+    // Inicializar com a primeira etapa
+    atualizarEtapa();
+  </script>
+</body>
+</html>
